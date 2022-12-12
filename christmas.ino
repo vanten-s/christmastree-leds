@@ -11,6 +11,7 @@ CRGB leds[ N_LEDS ];
 // Time as a uint8_t to make it much easier to use with CHSV( ) 
 uint8_t time = 0;
 
+// Run on start
 void setup ( )
 {
 
@@ -19,6 +20,7 @@ void setup ( )
 
 }
 
+// Run after setup ( )
 void loop ( )
 {
 
