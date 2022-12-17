@@ -18,7 +18,7 @@ uint8_t time = 0;
 CRGB color = CHSV(212, 255, 255);
 
 // What mode are we using right now
-int mode = 0;
+int mode = 1;
 
 // Uniform solid rainbow across all LED's
 int rainbow_solid ( )
@@ -28,7 +28,7 @@ int rainbow_solid ( )
     // Color is just the rainbow at time
     for ( int i = 0; i < N_LEDS; i++ )
     {
-        leds[i] = CHSV( time, 255, 255 );
+        leds[i] = CHSV( time, 255, 100 );
     }
 
     // Succes
