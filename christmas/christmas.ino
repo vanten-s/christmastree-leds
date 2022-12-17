@@ -31,7 +31,7 @@ int rainbow_solid ( )
     // Color is just the rainbow at time
     for ( int i = 0; i < N_LEDS; i++ )
     {
-        leds[i] = CHSV( time, 255, 100 );
+        leds[i] = CHSV( time, 255, BRIGHNTESS );
     }
 
     // Succes
@@ -46,7 +46,7 @@ int blink ( )
     // Set every LED to a random hue
     for ( int i = 0; i < N_LEDS; i++ )
     {
-        leds[i] = CHSV( random8( ), 255, 255 );
+        leds[i] = CHSV( random8( ), 255, BRIGHNTESS );
     }
 
     // Succes
@@ -63,6 +63,7 @@ void setup ( )
 
     // Init serial communication
     Serial.begin( 9600 );
+    Serial.println("Begin");
 
     // Add LED array to FastLED
     FastLED.addLeds< NEOPIXEL, 6 > ( leds, 300 );
@@ -77,6 +78,11 @@ void loop ( )
     {
         mode += 1;
         mode = mode % N_MODES;
+        Serial.println( mode );
+        while ( Serial.available( ) > 0 )
+        {
+          Serial.read( );
+        }
     }
 
     modes[mode]();
