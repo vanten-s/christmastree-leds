@@ -104,7 +104,9 @@ int slowlights ( )
     for ( int i = 0; i < N_POINTS; i++ )
     {
         leds[points[i] % N_LEDS] = color;
-        points[i] += random(0, 1) * 2 - 1;
+        int changeAmount = random(0, 1) * 2 - 1;
+        Serial.println(changeAmount)
+        points[i] += changeAmount;
     }
 
 }
