@@ -100,7 +100,7 @@ void lightNeighbours ( float p )
     int closest = round( p );
     for ( int i = closest; i < closest + 10; i++ ) 
     {
-        leds[i % N_LEDS] = CHSV( color_hue, 255, BRIGHNTESS * 1 / ( 1 + i - p ) );
+        leds[i % N_LEDS] = CHSV( color_hue, 255, round( BRIGHNTESS * ( 10 + p - i ) ) );
     }
 }
 
@@ -115,7 +115,7 @@ int slowlights ( )
     for ( int i = 0; i < N_POINTS; i++ )
     {
         lightNeighbours( points[ i ] );
-        float changeAmount = random( 0, 100 ) / 100.0;
+        float changeAmount = random( 0, 100 ) / 10.0;
         points[ i ] -= changeAmount;
         if ( points[ i ] < 0 )
         {
@@ -176,7 +176,6 @@ void loop ( )
 
     // Add to time variable and delay 10 ms
     time += 1;
-    delay( 20 );
 
     // Protocol
     // First byte, '0': then switch mode to the number in the next 3 bytes. '1': then the next 3 bytes determines color in ASCII encoded decimal between 0-360
