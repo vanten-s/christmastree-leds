@@ -100,7 +100,7 @@ void lightNeighbours ( float p )
     int closest = round( p );
     for ( int i = closest; i < closest + 10; i++ ) 
     {
-        leds[i] = CHSV( color_hue, 255, BRIGHNTESS*1/(1+i-p) );
+        leds[i] = CHSV( color_hue, 255, BRIGHNTESS * 1 / ( 1 + i - p ) );
     }
 }
 
@@ -116,8 +116,12 @@ int slowlights ( )
     {
         Serial.println( points[ i ] );
         lightNeighbours( points[ i ] );
-        // float changeAmount = random( 0, 10 ) / 10.0;
-        // points[ i ] += changeAmount;
+        float changeAmount = random( 0, 10 ) / 10.0;
+        points[ i ] += changeAmount;
+        if ( points[ i ] < 0 )
+        {
+            points[ i ] = N_LEDS;
+        }
     }
 
 }
