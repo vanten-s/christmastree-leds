@@ -6,7 +6,7 @@
 #define N_LEDS 300
 
 // Define number of modes
-#define N_MODES 3
+#define N_MODES 4
 
 // Define brightness
 #define BRIGHNTESS 100
@@ -54,7 +54,7 @@ int blink ( )
 
 }
 
-// Mode for being black so I dont have to manually turn it off
+// Mode for just black so I dont have to manually turn it off
 int black ( )
 {
 
@@ -64,12 +64,29 @@ int black ( )
         leds[i] = CRGB( 0, 0, 0 );
     }
 
+    // Succes
+    return 1;
+
+}
+
+// Normal solid color
+int solid ( )
+{
+
+    // Set every LED to color
+    for ( int i = 0; i < N_LEDS; i++ )
+    {
+        leds[i] = color;
+    }
+
+
+    // Succes
     return 1;
 
 }
 
 // Define array of int functions
-int ( *modes[ N_MODES ] )( ) = { rainbow_solid, blink, black };
+int ( *modes[ N_MODES ] )( ) = { rainbow_solid, blink, black, solid };
 
 // Run on start
 void setup ( )
