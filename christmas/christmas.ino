@@ -115,12 +115,12 @@ int slowlights ( )
     for ( int i = 0; i < N_POINTS; i++ )
     {
         lightNeighbours( points[ i ] );
-        float changeAmount = random( 0, 10 ) / 10.0;
+        float changeAmount = random( 0, 100 ) / 100.0;
         points[ i ] -= changeAmount;
-        if ( points[ i ] < 0 )
+        /*if ( points[ i ] < 0 )
         {
-            points[ i ] = N_LEDS;
-        }
+            points[ i ] = (float)N_LEDS;
+        }*/
     }
 
 }
