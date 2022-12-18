@@ -97,12 +97,10 @@ int solid ( )
 
 void lightNeighbours ( float p )
 {
-    Serial.println( p );
     int closest = round( p );
-    Serial.println(closest);
-    for ( int i = closest - 10; i < closest + 10; i++ ) 
+    for ( int i = closest; i < closest + 10; i++ ) 
     {
-        leds[i] = CHSV( color_hue, 255, abs( i-closest ) * BRIGHNTESS/10 );
+        leds[i] = CHSV( color_hue, 255, BRIGHNTESS*1/(1+i-p) );
     }
 }
 
