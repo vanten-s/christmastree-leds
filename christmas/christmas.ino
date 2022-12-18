@@ -29,7 +29,7 @@ int mode = 0;
 #define N_POINTS 3
 
 // Points for use with slowlights
-short int points[N_POINTS];
+float points[N_POINTS];
 
 // Uniform solid rainbow across all LED's
 int rainbow_solid ( )
@@ -103,8 +103,8 @@ int slowlights ( )
     // Loop over points
     for ( int i = 0; i < N_POINTS; i++ )
     {
-        leds[points[i] % N_LEDS] = color;
-        int changeAmount = random(0, 2) * 2 - 1;
+        leds[round(points[i]) % N_LEDS] = color;
+        int changeAmount = random(0, 10)/10.0;
         Serial.println(changeAmount);
         points[i] += changeAmount;
     }
