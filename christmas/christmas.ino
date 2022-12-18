@@ -103,8 +103,8 @@ int slowlights ( )
     // Loop over points
     for ( int i = 0; i < N_POINTS; i++ )
     {
-        leds[points[i]] = color;
-        points[i] += random(-1, 1);
+        leds[points[i] % N_LEDS] = color;
+        points[i] += random(0, 1) * 2 - 1;
     }
 
 }
