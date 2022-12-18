@@ -8,6 +8,9 @@
 // Define number of modes
 #define N_MODES 2
 
+// Define brightness
+#define BRIGHNTESS 100
+
 // Led array
 CRGB leds[ N_LEDS ];
 
@@ -18,7 +21,7 @@ uint8_t time = 0;
 CRGB color = CHSV(212, 255, 255);
 
 // What mode are we using right now
-int mode = 1;
+int mode = 0;
 
 // Uniform solid rainbow across all LED's
 int rainbow_solid ( )
@@ -43,7 +46,7 @@ int blink ( )
     // Set every LED to a random hue
     for ( int i = 0; i < N_LEDS; i++ )
     {
-        leds[i] = CHSV(random8(), 255, 255);
+        leds[i] = CHSV( random8( ), 255, 255 );
     }
 
     // Succes
@@ -58,14 +61,23 @@ int ( *modes[ N_MODES ] )( ) = { rainbow_solid, blink };
 void setup ( )
 {
 
+    // Init serial communication
+    Serial.begin( 9600 );
+
     // Add LED array to FastLED
     FastLED.addLeds< NEOPIXEL, 6 > ( leds, 300 );
 
 }
 
-// Run after setup ( )
+// Run Continuosly after setup ( )
 void loop ( )
 {
+
+    if ( Serial.available( ) > 0 )
+    {
+        mode += 1;
+        mode = mode % N_MODES;
+    }
 
     modes[mode]();
 
