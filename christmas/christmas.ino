@@ -117,9 +117,9 @@ int slowlights ( )
         lightNeighbours( points[ i ] );
         float changeAmount = random( 0, 100 ) / 100.0;
         points[ i ] -= changeAmount;
-        if ( points[ i ] < 10 )
+        if ( points[ i ] < 0 )
         {
-            points[ i ] = N_LEDS;
+            points[ i ] = N_LEDS-1;
         }
 
     }
