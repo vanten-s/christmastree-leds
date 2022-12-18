@@ -97,6 +97,7 @@ int solid ( )
 
 void lightNeighbours ( float p )
 {
+    Serial.println( p );
     int closest = round( p );
     Serial.println(closest);
     for ( int i = closest - 10; i < closest + 10; i++ ) 
