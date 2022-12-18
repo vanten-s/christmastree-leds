@@ -5,7 +5,6 @@
 // Define number of LED's on a light strip
 #define N_LEDS 300
 
-
 // Define brightness
 #define BRIGHNTESS 100
 
@@ -30,6 +29,9 @@ int mode = 0;
 
 // Points for use with slowlights
 float points[N_POINTS];
+
+// Hue for color
+int color_hue;
 
 // Uniform solid rainbow across all LED's
 int rainbow_solid ( )
@@ -93,20 +95,29 @@ int solid ( )
 
 }
 
+void lightNeighbours ( float p )
+{
+    int closest = round( p );
+    for ( int i = closest - 10; i < closest + 10; i++ ) 
+    {
+        leds[i] = CHSV( color_hue, 255, abs( closest-p ) * BRIGHNTESS/10 );
+    }
+}
+
 // Slow lights
 int slowlights ( )
 {
 
     // Clear
-    black();
+    black( );
 
     // Loop over points
     for ( int i = 0; i < N_POINTS; i++ )
     {
-        leds[round(points[i]) % N_LEDS] = color;
-        float changeAmount = random(0, 10)/10.0;
-        Serial.println(changeAmount);
-        points[i] += changeAmount;
+        lightNeighbours( points[ i ] );
+        float changeAmount = random( 0, 10 ) / 10.0;
+        Serial.println( changeAmount );
+        points[ i ] += changeAmount;
     }
 
 }
@@ -123,14 +134,14 @@ void setup ( )
 
     // Init serial communication
     Serial.begin( 9600 );
-    Serial.println("Begin");
+    Serial.println( "Begin" );
 
     // Add LED array to FastLED
     FastLED.addLeds< NEOPIXEL, 6 > ( leds, 300 );
    
     for ( int i = 0; i < N_POINTS; i++ )
     {
-        points[i] = random(0, N_LEDS);
+        points[i] = random( 0, N_LEDS );
     }
 
 }
@@ -152,7 +163,7 @@ void loop ( )
     }*/
 
     // Update LED array
-    modes[mode]();
+    modes[mode]( );
 
     // Update the real life LED's
     FastLED.show( );
@@ -168,9 +179,9 @@ void loop ( )
     if ( Serial.available( ) > 0 )
     {
         char buf[5] = "0000";
-        Serial.readBytesUntil('\n', buf, 5);
-        Serial.println(buf);
-        String str = String(buf);
+        Serial.readBytesUntil( '\n', buf, 5 );
+        Serial.println( buf );
+        String str = String( buf );
         switch ( str[0] )
         {
             case '0':
@@ -183,6 +194,7 @@ void loop ( )
                 str = str.substring( 1 );
                 int hue360 = str.toInt( );
                 uint8_t hue = 255 * ((float)hue360) / 360;
+                color_hue = hue;
                 color = CHSV( hue, 255, BRIGHNTESS );
                 break;
         }
