@@ -5,11 +5,10 @@
 // Define number of LED's on a light strip
 #define N_LEDS 300
 
-// Define number of modes
-#define N_MODES 4
 
 // Define brightness
 #define BRIGHNTESS 100
+
 
 // Led array
 CRGB leds[ N_LEDS ];
@@ -17,11 +16,20 @@ CRGB leds[ N_LEDS ];
 // Time as a uint8_t to make it much easier to use with CHSV( ) 
 uint8_t time = 0;
 
+// Time as a long int to make it easier to use over longer periods
+long int longTime = 0;
+
 // Color for color specific operations
 CRGB color = CRGB(0, 89, 117);
 
 // What mode are we using right now
 int mode = 0;
+
+// Define n points
+#define N_POINTS 3
+
+// Points for use with slowlights
+short int points[N_POINTS];
 
 // Uniform solid rainbow across all LED's
 int rainbow_solid ( )
@@ -85,8 +93,27 @@ int solid ( )
 
 }
 
+// Slow lights
+int slowlights ( )
+{
+
+    // Clear
+    black();
+
+    // Loop over points
+    for ( int i = 0; i < N_POINTS; i++ )
+    {
+        leds[points[i]] = color;
+        points[i] += random(-1, 1);
+    }
+
+}
+
+// Define number of modes
+#define N_MODES 5
+
 // Define array of int functions
-int ( *modes[ N_MODES ] )( ) = { rainbow_solid, blink, black, solid };
+int ( *modes[ N_MODES ] )( ) = { rainbow_solid, blink, black, solid, slowlights };
 
 // Run on start
 void setup ( )
@@ -98,6 +125,11 @@ void setup ( )
 
     // Add LED array to FastLED
     FastLED.addLeds< NEOPIXEL, 6 > ( leds, 300 );
+   
+    for ( int i = 0; i < N_POINTS; i++ )
+    {
+        points[i] = random(0, N_LEDS);
+    }
 
 }
 
@@ -125,7 +157,7 @@ void loop ( )
 
     // Add to time variable and delay 10 ms
     time += 1;
-    delay( 30 );
+    delay( 20 );
 
     // Protocol
     // First byte, '0': then switch mode to the number in the next 3 bytes. '1': then the next 3 bytes determines color in ASCII encoded decimal between 0-360
