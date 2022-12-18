@@ -143,7 +143,9 @@ void setup ( )
    
     for ( int i = 0; i < N_POINTS; i++ )
     {
-        points[i] = (float)random( 0, N_LEDS );
+        float place = (float)random( 0, N_LEDS );
+        Serial.println( place );
+        points[i] = place;
     }
 
 }
@@ -189,7 +191,7 @@ void loop ( )
             case '0':
                 Serial.println( "Changing Mode!" );
                 str = str.substring( 1 );
-                mode = str.toInt( );
+                mode = str.toInt( )t;
                 break;
             case '1':
                 Serial.println( "Changing Color!" );
