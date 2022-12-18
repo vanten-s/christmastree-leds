@@ -106,7 +106,7 @@ void loop ( )
 {
 
     // Protocol
-    // First byte, '0': then switch mode to the number in the next 6 bytes. '1': then the next 9 bytes determines color in ASCII encoded 8-bit decimal
+    // First byte, '0': then switch mode to the number in the next 3 bytes. '1': then the next 3 bytes determines color in ASCII encoded decimal between 0-360
 
     // If unread msg exists
     if ( Serial.available( ) > 0 )
@@ -120,13 +120,8 @@ void loop ( )
                 break;
             case '1':
                 str = Serial.readStringUntil( '\n' );
-                int r = str.substring( 0, 3 ).toInt( );
-                int g = str.substring( 3, 6 ).toInt( );
-                int b = str.substring( 6, 9 ).toInt( );
-                Serial.println(r);
-                Serial.println(g);
-                Serial.println(b);
-                color = CRGB( r, g, b );
+                int hue = str.toInt( );
+                color = CHSV( hue, 255, BRIGHNTESS );
                 break;
         }
     }
