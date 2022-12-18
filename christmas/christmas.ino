@@ -114,10 +114,9 @@ int slowlights ( )
     // Loop over points
     for ( int i = 0; i < N_POINTS; i++ )
     {
-        Serial.println( points[ i ] );
         lightNeighbours( points[ i ] );
         float changeAmount = random( 0, 10 ) / 10.0;
-        points[ i ] += changeAmount;
+        points[ i ] -= changeAmount;
         if ( points[ i ] < 0 )
         {
             points[ i ] = N_LEDS;
