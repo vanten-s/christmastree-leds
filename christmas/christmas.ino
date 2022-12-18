@@ -112,9 +112,9 @@ void loop ( )
     if ( Serial.available( ) > 0 )
     {
         char buf[5] = "0000";
-        Serial.readBytes(buf, 5);
+        Serial.readBytesUntil('\x00', buf, 5);
+        Serial.println(buf);
         String str = String(buf);
-        Serial.println(str);
         switch ( str[0] )
         {
             case '0':
