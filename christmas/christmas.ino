@@ -142,7 +142,7 @@ void setup ( )
    
     for ( int i = 0; i < N_POINTS; i++ )
     {
-        points[i] = random( 0, N_LEDS );
+        points[i] = (float)random( 0, N_LEDS );
     }
 
 }
