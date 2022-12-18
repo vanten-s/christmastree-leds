@@ -94,29 +94,23 @@ void loop ( )
     // If unread msg exists
     if ( Serial.available( ) > 0 )
     {
-        try 
+        String str;
+        switch ( (char)Serial.read( ) )
         {
-            switch ( (char)Serial.read( ) )
-            {
-                case '0':
-                    String str = Serial.readStringUntil( '\n' );
-                    mode = str.toInt( );
-                
-                    break;
-            
-                case '1':
-                    String str = Serial.readStringUntil( '\n' );
-                    int r = str[0:3].toInt( );
-                    int g = str[3:6].toInt( );
-                    int b = str[6:9].toInt( );
-                    color = CHSV( r, g, b );
-            
-                default:
-                    break;
-            }
-        } catch
-        {
-            Serial.println("Invalid or maybe error");
+            case '0':
+                str = Serial.readStringUntil( '\n' );
+                mode = str.toInt( );
+                break;
+            case '1':
+                str = Serial.readStringUntil( '\n' );
+                int r = str.substring( 0, 3 ).toInt( );
+                int g = str.substring( 3, 6 ).toInt( );
+                int b = str.substring( 6, 9 ).toInt( );
+                Serial.println(r);
+                Serial.println(g);
+                Serial.println(b);
+                color = CHSV( r, g, b );
+                break;
         }
     }
 
