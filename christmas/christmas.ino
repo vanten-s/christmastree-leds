@@ -126,7 +126,7 @@ void loop ( )
                 Serial.println(r);
                 Serial.println(g);
                 Serial.println(b);
-                color = CHSV( r, g, b );
+                color = CRGB( r, g, b );
                 break;
         }
     }
