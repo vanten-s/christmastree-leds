@@ -111,19 +111,22 @@ void loop ( )
     // If unread msg exists
     if ( Serial.available( ) > 0 )
     {
-        String str = Serial.readStringUntil( '\n' );
+        char buf[5] = "0000";
+        Serial.readBytes(buf, 4);
+        String str = String(buf);
+        Serial.println(str);
         switch ( str[0] )
         {
             case '0':
+                Serial.println( "Changing Mode!" );
                 str = str.substring( 1 );
                 mode = str.toInt( );
                 break;
             case '1':
+                Serial.println( "Changing Color!" );
                 str = str.substring( 1 );
                 int hue360 = str.toInt( );
-                Serial.println(hue360);
                 uint8_t hue = 255 * ((float)hue360) / 360;
-                Serial.println(hue);
                 color = CHSV( hue, 255, BRIGHNTESS );
                 break;
         }
