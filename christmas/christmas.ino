@@ -118,8 +118,8 @@ int slowlights ( )
     {
         Serial.println( points[ i ] );
         lightNeighbours( points[ i ] );
-        float changeAmount = random( 0, 10 ) / 10.0;
-        points[ i ] += changeAmount;
+        // float changeAmount = random( 0, 10 ) / 10.0;
+        // points[ i ] += changeAmount;
     }
 
 }
