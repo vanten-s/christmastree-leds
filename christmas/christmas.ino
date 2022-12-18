@@ -111,15 +111,15 @@ void loop ( )
     // If unread msg exists
     if ( Serial.available( ) > 0 )
     {
-        String str;
-        switch ( (char)Serial.read( ) )
+        String str = Serial.readStringUntil( '\n' );
+        switch ( str[0] )
         {
             case '0':
-                str = Serial.readStringUntil( '\n' );
+                str = str.substring( 1 );
                 mode = str.toInt( );
                 break;
             case '1':
-                str = Serial.readStringUntil( '\n' );
+                str = str.substring( 1 );
                 int hue360 = str.toInt( );
                 Serial.println(hue360);
                 uint8_t hue = 255 * ((float)hue360) / 360;
