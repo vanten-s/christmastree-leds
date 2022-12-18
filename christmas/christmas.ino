@@ -119,7 +119,7 @@ int slowlights ( )
         points[ i ] -= changeAmount;
         if ( points[ i ] < 10 )
         {
-            Serial.println( "Crashing" );
+            points[ i ] = N_LEDS;
         }
 
     }
