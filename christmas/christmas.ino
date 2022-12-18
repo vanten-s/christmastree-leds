@@ -18,7 +18,7 @@ CRGB leds[ N_LEDS ];
 uint8_t time = 0;
 
 // Color for color specific operations
-CRGB color = CHSV(212, 255, 255);
+CRGB color = CRGB(0xf72aaf);
 
 // What mode are we using right now
 int mode = 0;
