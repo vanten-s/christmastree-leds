@@ -101,6 +101,7 @@ void lightNeighbours ( float p )
     for ( int i = closest - 10; i < closest + 10; i++ ) 
     {
         leds[i] = CHSV( color_hue, 255, abs( i-closest ) * BRIGHNTESS/10 );
+        Serial.println( i );
         Serial.println( abs( i-closest ) * BRIGHNTESS/10 );
     }
 }
