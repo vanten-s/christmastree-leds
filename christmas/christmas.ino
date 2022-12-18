@@ -191,7 +191,7 @@ void loop ( )
             case '0':
                 Serial.println( "Changing Mode!" );
                 str = str.substring( 1 );
-                mode = str.toInt( )t;
+                mode = str.toInt( );
                 break;
             case '1':
                 Serial.println( "Changing Color!" );
