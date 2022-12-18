@@ -88,7 +88,40 @@ void setup ( )
 void loop ( )
 {
 
+    // Protocol
+    // First byte, '0': then switch mode to the number in the next 6 bytes. '1': then the next 9 bytes determines color in ASCII encoded 8-bit decimal
+
+    // If unread msg exists
     if ( Serial.available( ) > 0 )
+    {
+        try 
+        {
+            switch ( (char)Serial.read( ) )
+            {
+                case '0':
+                    String str = Serial.readStringUntil( '\n' );
+                    mode = str.toInt( );
+                
+                    break;
+            
+                case '1':
+                    String str = Serial.readStringUntil( '\n' );
+                    int r = str[0:3].toInt( );
+                    int g = str[3:6].toInt( );
+                    int b = str[6:9].toInt( );
+                    color = CHSV( r, g, b );
+            
+                default:
+                    break;
+            }
+        } catch
+        {
+            Serial.println("Invalid or maybe error");
+        }
+    }
+
+    // Read msg ( old )
+    /*if ( Serial.available( ) > 0 )
     {
         mode += 1;
         mode = mode % N_MODES;
@@ -97,11 +130,12 @@ void loop ( )
         {
           Serial.read( );
         }
-    }
+    }*/
 
+    // Update LED array
     modes[mode]();
 
-    // Update the LED's
+    // Update the real life LED's
     FastLED.show( );
 
     // Add to time variable and delay 10 ms
