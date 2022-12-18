@@ -121,7 +121,9 @@ void loop ( )
             case '1':
                 str = Serial.readStringUntil( '\n' );
                 int hue360 = str.toInt( );
-                uint8_t hue = 255 * hue360 / ( float )360;
+                Serial.println(hue360);
+                uint8_t hue = 255 * ((float)hue360) / 360;
+                Serial.println(hue);
                 color = CHSV( hue, 255, BRIGHNTESS );
                 break;
         }
