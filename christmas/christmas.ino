@@ -98,9 +98,9 @@ int solid ( )
 void lightNeighbours ( float p )
 {
     int closest = round( p );
-    for ( int i = closest; i < closest + 2; i++ ) 
+    for ( int i = closest; i < closest + 6; i++ ) 
     {
-        leds[i % N_LEDS] = CHSV( color_hue, 255, round( BRIGHNTESS * ( 2 + p - i ) ) / 2 );
+        leds[i % N_LEDS] = CHSV( color_hue, 255, round( BRIGHNTESS * ( 6 + p - i ) ) / 6 );
     }
 }
 
