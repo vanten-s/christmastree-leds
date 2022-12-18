@@ -105,6 +105,28 @@ void setup ( )
 void loop ( )
 {
 
+    // Read msg ( old )
+    /*if ( Serial.available( ) > 0 )
+    {
+        mode += 1;
+        mode = mode % N_MODES;
+        Serial.println( mode );
+        while ( Serial.available( ) > 0 )
+        {
+          Serial.read( );
+        }
+    }*/
+
+    // Update LED array
+    modes[mode]();
+
+    // Update the real life LED's
+    FastLED.show( );
+
+    // Add to time variable and delay 10 ms
+    time += 1;
+    delay( 10 );
+
     // Protocol
     // First byte, '0': then switch mode to the number in the next 3 bytes. '1': then the next 3 bytes determines color in ASCII encoded decimal between 0-360
 
@@ -131,27 +153,5 @@ void loop ( )
                 break;
         }
     }
-
-    // Read msg ( old )
-    /*if ( Serial.available( ) > 0 )
-    {
-        mode += 1;
-        mode = mode % N_MODES;
-        Serial.println( mode );
-        while ( Serial.available( ) > 0 )
-        {
-          Serial.read( );
-        }
-    }*/
-
-    // Update LED array
-    modes[mode]();
-
-    // Update the real life LED's
-    FastLED.show( );
-
-    // Add to time variable and delay 10 ms
-    time += 1;
-    delay( 10 );
 
 }
