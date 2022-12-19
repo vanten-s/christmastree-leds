@@ -98,6 +98,7 @@ int solid ( )
 void lightNeighbours ( float p )
 {
     int closest = round( p );
+    
     for ( int i = closest; i < closest + 6; i++ ) 
     {
         leds[i % N_LEDS] = CHSV( color_hue, 255, round( BRIGHNTESS * ( 6 + p - i ) ) / 6 );
@@ -176,13 +177,21 @@ void loop ( )
 
     // Add to time variable and delay 10 ms
     time += 1;
-    delay( 10 );
 
     // Return if no msg
     if ( !Serial.available( ) ) { return; }
 
     delay( 100 );
-    Serial.println( Serial.available( ) );
+    int available = Serial.available( );
+    Serial.println( available );
+
+    if ( available != 5 ) { 
+        for ( int i = 0; i < available; i++ )
+        {
+            Serial.println( (char)Serial.read( ) );
+        }
+        return; 
+    }
 
     // Protocol
     // First byte, '0': then switch mode to the number in the next 3 bytes. '1': then the next 3 bytes determines color in ASCII encoded decimal between 0-360
