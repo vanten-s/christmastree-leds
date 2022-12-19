@@ -181,6 +181,9 @@ void loop ( )
     // Return if no msg
     if ( !Serial.available( ) ) { return; }
 
+    delay( 100 );
+    Serial.println( Serial.available( ) );
+
     // Protocol
     // First byte, '0': then switch mode to the number in the next 3 bytes. '1': then the next 3 bytes determines color in ASCII encoded decimal between 0-360
 
