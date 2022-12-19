@@ -176,33 +176,34 @@ void loop ( )
 
     // Add to time variable and delay 10 ms
     time += 1;
+    delay( 10 );
+
+    // Return if no msg
+    if ( !Serial.available( ) ) { return; }
 
     // Protocol
     // First byte, '0': then switch mode to the number in the next 3 bytes. '1': then the next 3 bytes determines color in ASCII encoded decimal between 0-360
 
     // If unread msg exists
-    if ( Serial.available( ) > 0 )
+    char buf[5] = "0000";
+    Serial.readBytesUntil( '\n', buf, 5 );
+    Serial.println( buf );
+    String str = String( buf );
+    switch ( str[0] )
     {
-        char buf[5] = "0000";
-        Serial.readBytesUntil( '\n', buf, 5 );
-        Serial.println( buf );
-        String str = String( buf );
-        switch ( str[0] )
-        {
-            case '0':
-                Serial.println( "Changing Mode!" );
-                str = str.substring( 1 );
-                mode = str.toInt( );
-                break;
-            case '1':
-                Serial.println( "Changing Color!" );
-                str = str.substring( 1 );
-                int hue360 = str.toInt( );
-                uint8_t hue = 255 * ((float)hue360) / 360;
-                color_hue = hue;
-                color = CHSV( hue, 255, BRIGHNTESS );
-                break;
-        }
+        case '0':
+            Serial.println( "Changing Mode!" );
+            str = str.substring( 1 );
+            mode = str.toInt( );
+            break;
+        case '1':
+            Serial.println( "Changing Color!" );
+            str = str.substring( 1 );
+            int hue360 = str.toInt( );
+            uint8_t hue = 255 * ((float)hue360) / 360;
+            color_hue = hue;
+            color = CHSV( hue, 255, BRIGHNTESS );
+            break;
     }
 
 }
