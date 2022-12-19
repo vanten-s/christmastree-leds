@@ -137,7 +137,7 @@ void setup ( )
 {
 
     // Init serial communication
-    Serial.begin( 38400 );
+    Serial.begin( 9600 );
     Serial.println( "Begin" );
 
     // Add LED array to FastLED
