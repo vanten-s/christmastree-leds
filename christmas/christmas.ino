@@ -100,7 +100,7 @@ void lightNeighbours ( float p )
     int closest = round( p );
     for ( int i = closest; i < closest + 10; i++ ) 
     {
-        leds[i] = CHSV( color_hue, 255, BRIGHNTESS * 1 / ( 1 + i - p ) );
+        leds[i % N_LEDS] = CHSV( color_hue, 255, BRIGHNTESS * 1 / ( 1 + i - p ) );
     }
 }
 
