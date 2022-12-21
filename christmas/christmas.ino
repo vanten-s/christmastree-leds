@@ -8,7 +8,6 @@
 // Define brightness
 #define BRIGHNTESS 100
 
-
 // Led array
 CRGB leds[ N_LEDS ];
 
@@ -19,22 +18,19 @@ uint8_t time = 0;
 long int longTime = 0;
 
 // Color for color specific operations
-CRGB color = CRGB(0, 89, 117);
+CRGB color = CHSV( 127, 255, BRIGHNTESS );
 
 // What mode are we using right now
 int mode = 0;
 
 // Define n points
-#define N_POINTS 3
+#define N_POINTS 10
 
 // Points for use with slowlights
 int points[N_POINTS];
 
-// Time sinced corresponding element in points[] was created
-int pointsTime[N_POINTS];
-
 // Hue for color
-int color_hue;
+int color_hue = 180;
 
 // Uniform solid rainbow across all LED's
 int rainbow_solid ( )
@@ -98,20 +94,19 @@ int solid ( )
 
 }
 
-// Never used
 void lightNeighbours ( float p )
 {
     int closest = round( p );
 
-    for ( int i = closest - 6; i < closest; i++ )
+    for ( int i = closest - 3; i < closest; i++ )
     {
-        float brightFloat = BRIGHNTESS * ( 5 + i - p ) / 6; 
+        float brightFloat = BRIGHNTESS * ( 3 + ( i % N_LEDS ) - p ) / 3; 
         leds[i % N_LEDS] = CHSV( color_hue, 255, round( brightFloat ) );
     }
     
-    for ( int i = closest; i < closest + 6; i++ ) 
+    for ( int i = closest; i < closest + 3; i++ ) 
     {
-        float brightFloat = BRIGHNTESS * ( 5 + p - i ) / 6; 
+        float brightFloat = BRIGHNTESS * ( 3 + p - ( i % N_LEDS ) ) / 3; 
         leds[i % N_LEDS] = CHSV( color_hue, 255, round( brightFloat ) );
     }
 }
@@ -129,9 +124,9 @@ int slowlights ( )
         lightNeighbours( points[ i ] );
         float changeAmount = random( 0, 100 ) / 100.0;
         points[ i ] -= changeAmount;
-        if ( points[ i ] < 7 ) 
+        if ( points[ i ] < 4 ) 
         {
-            points[ i ] = N_LEDS-10;
+            points[ i ] = N_LEDS - 3;
         }
 
     }
@@ -158,8 +153,7 @@ void setup ( )
     for ( int i = 0; i < N_POINTS; i++ )
     {
         float place = (float)random( 0, N_LEDS );
-        Serial.println( place );
-        points[i] = place;
+        points[ i ] = place;
     }
 
 }
