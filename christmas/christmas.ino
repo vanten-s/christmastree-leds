@@ -28,7 +28,10 @@ int mode = 0;
 #define N_POINTS 3
 
 // Points for use with slowlights
-float points[N_POINTS];
+int points[N_POINTS];
+
+// Time sinced corresponding element in points[] was created
+int pointsTime[N_POINTS];
 
 // Hue for color
 int color_hue;
@@ -95,18 +98,21 @@ int solid ( )
 
 }
 
+// Never used
 void lightNeighbours ( float p )
 {
     int closest = round( p );
 
     for ( int i = closest - 6; i < closest; i++ )
     {
-        leds[i % N_LEDS] = CHSV( color_hue, 255, round( BRIGHNTESS * ( 6 + i - p ) ) / 6 );
+        float brightFloat = BRIGHNTESS * ( 5 + i - p ) / 6; 
+        leds[i % N_LEDS] = CHSV( color_hue, 255, round( brightFloat ) );
     }
     
     for ( int i = closest; i < closest + 6; i++ ) 
     {
-        leds[i % N_LEDS] = CHSV( color_hue, 255, round( BRIGHNTESS * ( 6 + p - i ) ) / 6 );
+        float brightFloat = BRIGHNTESS * ( 5 + p - i ) / 6; 
+        leds[i % N_LEDS] = CHSV( color_hue, 255, round( brightFloat ) );
     }
 }
 
@@ -121,11 +127,11 @@ int slowlights ( )
     for ( int i = 0; i < N_POINTS; i++ )
     {
         lightNeighbours( points[ i ] );
-        float changeAmount = random( 0, 100 ) / 1000.0;
+        float changeAmount = random( 0, 100 ) / 100.0;
         points[ i ] -= changeAmount;
-        if ( points[ i ] < 0 )
+        if ( points[ i ] < 7 ) 
         {
-            points[ i ] = N_LEDS-1;
+            points[ i ] = N_LEDS-10;
         }
 
     }
@@ -158,6 +164,15 @@ void setup ( )
 
 }
 
+// Clear buffer if to much on it
+void clearReadBuffer ( )
+{
+    for ( int i = 0; i < Serial.available( ); i++ )
+    {
+        Serial.read( );
+    }
+}
+
 // Run Continuosly after setup ( )
 void loop ( )
 {
@@ -183,26 +198,17 @@ void loop ( )
     // Add to time variable and delay 10 ms
     time += 1;
 
-    // Return if no msg
-    if ( !Serial.available( ) ) { return; }
-
-    delay( 100 );
+    delay( 50 ); // Delay to make animaton slower and to make the arduino better at receiving serial data
     int available = Serial.available( );
-    Serial.println( available );
 
-    if ( available != 5 ) { 
-        for ( int i = 0; i < available; i++ )
-        {
-            Serial.println( (char)Serial.read( ) );
-        }
-        return; 
-    }
+    if ( available < 5 ) { return; }
+    else if ( available > 5 ) { clearReadBuffer( ); }
 
     // Protocol
     // First byte, '0': then switch mode to the number in the next 3 bytes. '1': then the next 3 bytes determines color in ASCII encoded decimal between 0-360
 
     // If unread msg exists
-    char buf[5] = "0000";
+    char buf[5] = "2000";
     Serial.readBytesUntil( '\n', buf, 5 );
     Serial.println( buf );
     String str = String( buf );
